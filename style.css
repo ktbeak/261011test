@@ -1,0 +1,1320 @@
+/* ==========================================================================
+   고등학교 1학년 탐구용 주기율표 스타일시트 (style.css)
+   테마: 밝고 산뜻한 라이트 테마 (교실 친화적 파스텔 톤 + 교과서 인포그래픽 스타일)
+   ========================================================================== */
+
+:root {
+  /* 기본 팔레트 (산뜻한 교실/교과서 라이트 톤 - 연한 초록색 배경) */
+  --bg-main: #F0FAF4;
+  --bg-card: #FFFFFF;
+  --bg-subtle: #EEF2F6;
+  --text-main: #2D3748;
+  --text-secondary: #5A6A80;
+  --text-muted: #8898AA;
+  --border-light: #E2E8F0;
+  --border-focus: #4F46E5;
+  --primary: #4361EE;
+  --primary-hover: #3A56D4;
+  --primary-light: #EBF0FF;
+  --accent: #FF7043;
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px rgba(67, 97, 238, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.12);
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* 원소 분류별 파스텔 컬러 토큰 */
+  --color-alkali-bg: #FFE5E0;
+  --color-alkali-border: #FF8A80;
+  --color-alkali-text: #B71C1C;
+
+  --color-alkaline-bg: #FFEED9;
+  --color-alkaline-border: #FFB74D;
+  --color-alkaline-text: #E65100;
+
+  --color-transition-bg: #FFF8E1;
+  --color-transition-border: #FFE082;
+  --color-transition-text: #F57F17;
+
+  --color-post-transition-bg: #E8F5E9;
+  --color-post-transition-border: #A5D6A7;
+  --color-post-transition-text: #1B5E20;
+
+  --color-metalloid-bg: #E0F7FA;
+  --color-metalloid-border: #80DEEA;
+  --color-metalloid-text: #006064;
+
+  --color-nonmetal-bg: #EDE7F6;
+  --color-nonmetal-border: #B39DDB;
+  --color-nonmetal-text: #311B92;
+
+  --color-halogen-bg: #F3E5F5;
+  --color-halogen-border: #CE93D8;
+  --color-halogen-text: #4A148C;
+
+  --color-noble-bg: #E1F5FE;
+  --color-noble-border: #81D4FA;
+  --color-noble-text: #01579B;
+
+  --color-lanthanide-bg: #FBE9E7;
+  --color-lanthanide-border: #FFAB91;
+  --color-lanthanide-text: #BF360C;
+
+  --color-actinide-bg: #EFEBE9;
+  --color-actinide-border: #BCAAA4;
+  --color-actinide-text: #4E342E;
+}
+
+/* 기본 리셋 및 폰트 */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: auto;
+}
+
+/* 전체 컨테이너 */
+.app-container {
+  max-width: 1440px;
+  min-width: 1100px;
+  margin: 0 auto;
+  padding: 20px 28px 40px;
+}
+
+/* 헤더 영역 */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--border-light);
+}
+
+.badge-grade {
+  display: inline-block;
+  background-color: #E0E7FF;
+  color: #3730A3;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  margin-bottom: 6px;
+  letter-spacing: -0.3px;
+}
+
+.app-title {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: #1E293B;
+  letter-spacing: -0.5px;
+}
+
+.app-subtitle {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-top: 4px;
+}
+
+/* 활동지 열기 버튼 */
+.btn-notebook {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--primary);
+  color: #FFFFFF;
+  border: none;
+  padding: 10px 18px;
+  border-radius: var(--radius-lg);
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(67, 97, 238, 0.25);
+  transition: all var(--transition-fast);
+}
+
+.btn-notebook:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(67, 97, 238, 0.35);
+}
+
+.notebook-badge {
+  background-color: #EF4444;
+  color: #FFFFFF;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 12px;
+  min-width: 18px;
+  text-align: center;
+}
+
+/* 인터랙티브 제어 패널 */
+.control-panel {
+  display: grid;
+  grid-template-columns: auto 1fr 1fr auto;
+  gap: 16px;
+  align-items: center;
+  background-color: var(--bg-card);
+  padding: 16px 20px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-light);
+  margin-bottom: 16px;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.control-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.highlight-val {
+  color: var(--primary);
+  font-weight: 800;
+}
+
+/* 모드 스위치 버튼 */
+.mode-switch {
+  display: flex;
+  background-color: var(--bg-subtle);
+  border-radius: var(--radius-md);
+  padding: 3px;
+  gap: 3px;
+}
+
+.mode-btn {
+  border: none;
+  background: transparent;
+  padding: 7px 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.mode-btn.active {
+  background-color: #FFFFFF;
+  color: var(--primary);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+/* 슬라이더 영역 */
+.period-slider-group {
+  min-width: 240px;
+}
+
+.slider-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.concept-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.slider-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.slider-bound {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+#periodSlider {
+  flex: 1;
+  accent-color: var(--primary);
+  cursor: pointer;
+  height: 6px;
+  border-radius: 3px;
+}
+
+/* 주요 족 칩 버튼들 */
+.group-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.chip {
+  background-color: var(--bg-subtle);
+  color: var(--text-secondary);
+  border: 1px solid transparent;
+  padding: 5px 10px;
+  border-radius: 14px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.chip:hover {
+  background-color: #E2E8F0;
+  color: var(--text-main);
+}
+
+.chip.active {
+  background-color: var(--primary-light);
+  color: var(--primary);
+  border-color: #C7D2FE;
+  font-weight: 700;
+}
+
+/* 검색창 */
+.search-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+#elementSearchInput {
+  padding: 8px 12px;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  width: 175px;
+  transition: border-color var(--transition-fast);
+}
+
+#elementSearchInput:focus {
+  outline: none;
+  border-color: var(--border-focus);
+}
+
+.btn-reset {
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-light);
+  padding: 8px 10px;
+  border-radius: var(--radius-md);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.btn-reset:hover {
+  background-color: #E2E8F0;
+  color: var(--text-main);
+}
+
+/* 주기성 안내 배너 */
+.periodicity-guide {
+  margin-bottom: 16px;
+}
+
+.guide-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(90deg, #EEF2FF 0%, #F5F3FF 100%);
+  border: 1px solid #C7D2FE;
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
+}
+
+.guide-icon {
+  font-size: 1.3rem;
+}
+
+.guide-text {
+  font-size: 0.88rem;
+  color: #3730A3;
+}
+
+.guide-text strong {
+  color: #1E1B4B;
+}
+
+/* 주기율표 래퍼 */
+.table-wrapper {
+  background-color: var(--bg-card);
+  padding: 18px 20px 24px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-light);
+  overflow-x: auto;
+}
+
+/* 족 번호 헤더 행 (1~18) */
+.group-header-row {
+  display: grid;
+  grid-template-columns: 36px repeat(18, minmax(48px, 1fr));
+  gap: 5px;
+  margin-bottom: 6px;
+}
+
+.period-corner-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.group-number-col {
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  padding-bottom: 4px;
+}
+
+.group-number-col.highlight {
+  color: var(--primary);
+  font-weight: 900;
+}
+
+/* 주기율표 메인 그리드 */
+.periodic-grid {
+  display: grid;
+  grid-template-columns: 36px repeat(18, minmax(48px, 1fr));
+  grid-template-rows: repeat(7, minmax(64px, auto));
+  gap: 5px;
+}
+
+/* 주기 번호 인디케이터 (1~7) */
+.period-number-indicator {
+  grid-column: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-subtle);
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.period-number-indicator.highlight {
+  background-color: var(--primary-light);
+  color: var(--primary);
+  border: 1.5px solid #818CF8;
+}
+
+.period-shell-subtext {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+/* 원소 카드 기본 스타일 */
+.element-card {
+  position: relative;
+  background-color: #FFFFFF;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border-light);
+  padding: 4px 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), opacity var(--transition-fast);
+  user-select: none;
+  min-height: 64px;
+}
+
+.element-card:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+  z-index: 5;
+}
+
+.element-top-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-size: 0.7rem;
+}
+
+.element-atomic-number {
+  font-weight: 800;
+  color: inherit;
+  opacity: 0.85;
+}
+
+.element-valence-chip {
+  font-size: 0.62rem;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 1px 4px;
+  border-radius: 4px;
+  font-weight: 700;
+  color: inherit;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.element-symbol {
+  font-size: 1.25rem;
+  font-weight: 800;
+  text-align: center;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+}
+
+.element-name-ko {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 고1 핵심 원소 1~20번 강조 뱃지 */
+.core-badge-dot {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #4F46E5;
+  box-shadow: 0 0 4px #4F46E5;
+}
+
+/* 카테고리별 원소 카드 테마 */
+.category-alkali-metal {
+  background-color: var(--color-alkali-bg);
+  border-color: var(--color-alkali-border);
+  color: var(--color-alkali-text);
+}
+.category-alkaline-earth {
+  background-color: var(--color-alkaline-bg);
+  border-color: var(--color-alkaline-border);
+  color: var(--color-alkaline-text);
+}
+.category-transition-metal {
+  background-color: var(--color-transition-bg);
+  border-color: var(--color-transition-border);
+  color: var(--color-transition-text);
+}
+.category-post-transition {
+  background-color: var(--color-post-transition-bg);
+  border-color: var(--color-post-transition-border);
+  color: var(--color-post-transition-text);
+}
+.category-metalloid {
+  background-color: var(--color-metalloid-bg);
+  border-color: var(--color-metalloid-border);
+  color: var(--color-metalloid-text);
+}
+.category-nonmetal {
+  background-color: var(--color-nonmetal-bg);
+  border-color: var(--color-nonmetal-border);
+  color: var(--color-nonmetal-text);
+}
+.category-halogen {
+  background-color: var(--color-halogen-bg);
+  border-color: var(--color-halogen-border);
+  color: var(--color-halogen-text);
+}
+.category-noble-gas {
+  background-color: var(--color-noble-bg);
+  border-color: var(--color-noble-border);
+  color: var(--color-noble-text);
+}
+.category-lanthanide {
+  background-color: var(--color-lanthanide-bg);
+  border-color: var(--color-lanthanide-border);
+  color: var(--color-lanthanide-text);
+}
+.category-actinide {
+  background-color: var(--color-actinide-bg);
+  border-color: var(--color-actinide-border);
+  color: var(--color-actinide-text);
+}
+
+/* 필터링 및 강조 상태 */
+.element-card.dimmed {
+  opacity: 0.18;
+  filter: grayscale(80%);
+  pointer-events: auto;
+}
+
+.element-card.highlighted {
+  border: 2.5px solid #312E81 !important;
+  box-shadow: 0 0 12px rgba(79, 70, 229, 0.45);
+  transform: translateY(-2px);
+  z-index: 6;
+}
+
+/* 란타넘/악티늄족 영역 */
+.f-block-wrapper {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--border-light);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-left: 36px;
+}
+
+.f-block-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.f-block-label {
+  width: 95px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.f-block-grid {
+  display: grid;
+  grid-template-columns: repeat(15, minmax(44px, 1fr));
+  gap: 4px;
+  flex: 1;
+}
+
+/* 카테고리 범례 */
+.legend-container {
+  margin-top: 16px;
+  background-color: var(--bg-card);
+  padding: 14px 18px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
+}
+
+.legend-title {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.legend-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.legend-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 12px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all var(--transition-fast);
+}
+
+.legend-chip:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.legend-chip.active {
+  border-color: #312E81;
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.3);
+}
+
+.legend-color-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+/* ==========================================================================
+   원소 상세 모달 창 (Modal) 스타일
+   ========================================================================== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.modal-backdrop.open {
+  display: flex;
+  opacity: 1;
+}
+
+.modal-card {
+  background-color: #FFFFFF;
+  width: 100%;
+  max-width: 860px;
+  max-height: 90vh;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transform: scale(0.95);
+  transition: transform var(--transition-normal);
+}
+
+.modal-backdrop.open .modal-card {
+  transform: scale(1);
+}
+
+/* 모달 헤더 */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border-light);
+  background-color: #FAFAFC;
+}
+
+.modal-header-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.modal-number {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--primary);
+  background-color: var(--primary-light);
+  padding: 2px 10px;
+  border-radius: 12px;
+}
+
+.modal-category-tag, .modal-position-tag {
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 8px;
+  background-color: var(--bg-subtle);
+  color: var(--text-secondary);
+}
+
+.modal-close-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.3rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+}
+
+.modal-close-btn:hover {
+  background-color: #E2E8F0;
+  color: var(--text-main);
+}
+
+/* 모달 본문 (2단 레이아웃) */
+.modal-body {
+  display: grid;
+  grid-template-columns: 310px 1fr;
+  gap: 24px;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+/* 좌측 비주얼 컬럼 */
+.modal-visual-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.modal-symbol-box {
+  padding: 20px;
+  border-radius: var(--radius-lg);
+  border: 2px solid var(--border-light);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all var(--transition-fast);
+}
+
+.modal-symbol {
+  font-size: 3.5rem;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.modal-name-ko {
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin-top: 4px;
+}
+
+.modal-name-en {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.modal-mass {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 6px;
+  font-weight: 600;
+}
+
+/* 보어 전자 껍질 모형 컨테이너 */
+.bohr-model-container {
+  background-color: #F8FAFC;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.model-title-wrap {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.model-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.valence-badge {
+  background-color: #EDE9FE;
+  color: #6D28D9;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.svg-orbit-wrapper {
+  width: 220px;
+  height: 220px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 전자 회전 애니메이션 */
+@keyframes spinOrbit {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.orbit-group-1 {
+  animation: spinOrbit 12s linear infinite;
+  transform-origin: 110px 110px;
+}
+.orbit-group-2 {
+  animation: spinOrbit 18s linear infinite reverse;
+  transform-origin: 110px 110px;
+}
+.orbit-group-3 {
+  animation: spinOrbit 24s linear infinite;
+  transform-origin: 110px 110px;
+}
+.orbit-group-4 {
+  animation: spinOrbit 30s linear infinite reverse;
+  transform-origin: 110px 110px;
+}
+
+.shell-electron-stats {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.shell-chip {
+  background-color: #FFFFFF;
+  border: 1px solid var(--border-light);
+  padding: 2px 7px;
+  border-radius: 6px;
+}
+
+/* 우측 정보 컬럼 */
+.modal-info-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.info-section {
+  background-color: #F8FAFC;
+  border: 1px solid var(--border-light);
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+}
+
+.section-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #1E293B;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.modal-summary-text {
+  font-weight: 700;
+  color: var(--primary);
+  font-size: 0.92rem;
+  margin-bottom: 4px;
+}
+
+.modal-desc-text, .modal-usage-text {
+  font-size: 0.88rem;
+  color: var(--text-main);
+  line-height: 1.6;
+}
+
+/* 자가진단 퀴즈 */
+.quiz-section {
+  background-color: #FFFBEB;
+  border-color: #FDE68A;
+}
+
+.quiz-box {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.quiz-question {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #92400E;
+}
+
+.quiz-action-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-toggle-quiz {
+  background-color: #F59E0B;
+  color: #FFFFFF;
+  border: none;
+  padding: 5px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.btn-toggle-quiz:hover {
+  background-color: #D97706;
+}
+
+.quiz-hint-text {
+  font-size: 0.78rem;
+  color: #B45309;
+}
+
+.quiz-answer-wrap {
+  margin-top: 6px;
+  background-color: #FFFFFF;
+  border: 1px solid #FCD34D;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+}
+
+.answer-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 800;
+  background-color: #FEF3C7;
+  color: #B45309;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-bottom: 4px;
+}
+
+.quiz-answer-text {
+  font-size: 0.85rem;
+  color: #78350F;
+  line-height: 1.5;
+}
+
+/* 활동지에 추가 액션 행 */
+.modal-action-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.btn-add-notebook {
+  flex: 1;
+  background-color: #10B981;
+  color: #FFFFFF;
+  border: none;
+  padding: 11px 18px;
+  border-radius: var(--radius-md);
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all var(--transition-fast);
+}
+
+.btn-add-notebook:hover {
+  background-color: #059669;
+  transform: translateY(-1px);
+}
+
+.feedback-msg {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #059669;
+}
+
+/* 모달 하단 내비게이션 */
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  background-color: #FAFAFC;
+  border-top: 1px solid var(--border-light);
+}
+
+.modal-nav-btn {
+  background-color: #FFFFFF;
+  border: 1px solid var(--border-light);
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-main);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.modal-nav-btn:hover {
+  background-color: var(--bg-subtle);
+  border-color: #CBD5E1;
+}
+
+.nav-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   우측 슬라이드형 나만의 탐구 활동지 패널 스타일
+   ========================================================================== */
+.notebook-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 440px;
+  height: 100vh;
+  background-color: #FFFFFF;
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15);
+  z-index: 1100;
+  transform: translateX(100%);
+  transition: transform var(--transition-normal);
+  display: flex;
+  flex-direction: column;
+}
+
+.notebook-panel.open {
+  transform: translateX(0);
+}
+
+.notebook-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px 22px;
+  border-bottom: 1px solid var(--border-light);
+  background-color: #FAFAFC;
+}
+
+.notebook-title-wrap h2 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #1E293B;
+}
+
+.notebook-title-wrap p {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.btn-close-notebook {
+  background: transparent;
+  border: none;
+  font-size: 1.25rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+}
+
+.btn-close-notebook:hover {
+  background-color: #E2E8F0;
+  color: var(--text-main);
+}
+
+.notebook-body {
+  padding: 20px 22px;
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.student-info-row {
+  display: flex;
+  gap: 8px;
+}
+
+.student-info-row input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+}
+
+.student-info-row input:focus {
+  outline: none;
+  border-color: var(--border-focus);
+}
+
+.section-subhead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.section-subhead h3, .notebook-memo-section h3 {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #1E293B;
+}
+
+.btn-subaction {
+  background: transparent;
+  border: none;
+  font-size: 0.75rem;
+  color: #EF4444;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-subaction:hover {
+  text-decoration: underline;
+}
+
+.scrapped-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.empty-note {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 20px 0;
+  background-color: var(--bg-subtle);
+  border-radius: var(--radius-md);
+}
+
+.scrap-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background-color: #F8FAFC;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+
+.scrap-item:hover {
+  background-color: #F1F5F9;
+}
+
+.scrap-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.scrap-symbol {
+  font-size: 1.1rem;
+  font-weight: 800;
+  width: 32px;
+  text-align: center;
+}
+
+.scrap-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #1E293B;
+}
+
+.scrap-meta {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.btn-remove-scrap {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.btn-remove-scrap:hover {
+  color: #EF4444;
+  background-color: #FEE2E2;
+}
+
+.memo-guide-text {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin-top: 3px;
+  margin-bottom: 8px;
+}
+
+.notebook-textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  resize: vertical;
+}
+
+.notebook-textarea:focus {
+  outline: none;
+  border-color: var(--border-focus);
+}
+
+.notebook-footer {
+  padding: 14px 22px;
+  border-top: 1px solid var(--border-light);
+  background-color: #FAFAFC;
+  display: flex;
+  gap: 10px;
+}
+
+.btn-notebook-action {
+  flex: 1;
+  padding: 10px;
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid var(--border-light);
+  background-color: #FFFFFF;
+  color: var(--text-main);
+  transition: all var(--transition-fast);
+}
+
+.btn-notebook-action:hover {
+  background-color: var(--bg-subtle);
+}
+
+.btn-notebook-action.btn-primary {
+  background-color: var(--primary);
+  color: #FFFFFF;
+  border: none;
+}
+
+.btn-notebook-action.btn-primary:hover {
+  background-color: var(--primary-hover);
+}
+
+/* ==========================================================================
+   인쇄 전용 스타일 (Print Stylesheet)
+   ========================================================================== */
+@media print {
+  body {
+    background-color: #FFFFFF !important;
+  }
+
+  .control-panel, .header-actions, .periodicity-guide, .legend-container, .modal-backdrop {
+    display: none !important;
+  }
+
+  .notebook-panel {
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    transform: none !important;
+    box-shadow: none !important;
+    border: 1px solid #000000;
+    margin-top: 20px;
+  }
+
+  .notebook-footer, .btn-close-notebook {
+    display: none !important;
+  }
+}

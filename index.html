@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>고등학교 1학년 탐구용 인터랙티브 주기율표 | 원소의 주기성 탐구</title>
+  <meta name="description" content="고등학교 1학년 통합과학 원소의 주기성과 주기율표 개념을 복습하고 탐구하는 인터랙티브 학습 웹 앱입니다.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- 헤더 영역 -->
+    <header class="app-header">
+      <div class="header-left">
+        <span class="badge-grade">고등학교 1학년 통합과학</span>
+        <h1 class="app-title">원소의 주기성 탐구 주기율표</h1>
+        <p class="app-subtitle">원소를 클릭하여 전자 배치와 화학적 성질을 탐구하고 나만의 활동지를 작성해보세요.</p>
+      </div>
+      <div class="header-actions">
+        <!-- 활동지 열기 버튼 -->
+        <button id="btnOpenNotebook" class="btn-notebook" type="button" aria-label="탐구 활동지 열기">
+          <span class="notebook-icon">📝</span>
+          <span>나만의 탐구 활동지</span>
+          <span id="notebookBadge" class="notebook-badge">0</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- 인터랙티브 컨트롤 패널 -->
+    <section class="control-panel" aria-label="주기율표 탐구 제어 도구">
+      <!-- 1) 보기 모드 토글 (1~20번 핵심 vs 118번 전체) -->
+      <div class="control-group view-mode-group">
+        <label class="control-label">원소 표시 모드</label>
+        <div class="mode-switch">
+          <button id="btnModeCore" class="mode-btn active" type="button" data-mode="core">
+            ⭐ 1~20번 핵심 집중 모드
+          </button>
+          <button id="btnModeAll" class="mode-btn" type="button" data-mode="all">
+            🌐 118번 전체 원소 모드
+          </button>
+        </div>
+      </div>
+
+      <!-- 2) 주기 탐색 슬라이더 (가로줄 = 전자 껍질 수) -->
+      <div class="control-group period-slider-group">
+        <div class="slider-header">
+          <label for="periodSlider" class="control-label">주기(가로줄) 탐색: <span id="periodDisplay" class="highlight-val">전체</span></label>
+          <span class="concept-hint" id="periodHint">주기는 전자 껍질 수(K, L, M, N...)를 의미합니다.</span>
+        </div>
+        <div class="slider-wrapper">
+          <span class="slider-bound">전체</span>
+          <input type="range" id="periodSlider" min="0" max="7" value="0" step="1" aria-label="주기 필터 슬라이더">
+          <span class="slider-bound">7주기</span>
+        </div>
+      </div>
+
+      <!-- 3) 주요 족 탐구 버튼 (세로줄 = 원자가 전자 수) -->
+      <div class="control-group group-select-group">
+        <label class="control-label">주요 족(세로줄) 탐구</label>
+        <div class="group-chips" id="groupChips">
+          <button type="button" class="chip active" data-group="all">전체 족</button>
+          <button type="button" class="chip" data-group="1" title="알칼리 금속 (원자가 전자 1개)">1족 (알칼리 금속)</button>
+          <button type="button" class="chip" data-group="2" title="알칼리 토금속 (원자가 전자 2개)">2족 (알칼리 토금속)</button>
+          <button type="button" class="chip" data-group="14" title="탄소족 (원자가 전자 4개)">14족 (탄소족)</button>
+          <button type="button" class="chip" data-group="17" title="할로젠 원소 (원자가 전자 7개)">17족 (할로젠)</button>
+          <button type="button" class="chip" data-group="18" title="비활성 기체 (원자가 전자 0개)">18족 (비활성 기체)</button>
+        </div>
+      </div>
+
+      <!-- 4) 원소 검색창 및 초기화 -->
+      <div class="control-group search-group">
+        <label for="elementSearchInput" class="control-label">원소 검색</label>
+        <div class="search-input-wrap">
+          <input type="text" id="elementSearchInput" placeholder="기호/이름/번호 (예: Na, 산소, 11)" autocomplete="off">
+          <button id="btnResetFilters" type="button" class="btn-reset" title="모든 필터 초기화">🔄 초기화</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 주기성 핵심 개념 배너 -->
+    <div class="periodicity-guide" id="periodicityGuide">
+      <div class="guide-card">
+        <span class="guide-icon">💡</span>
+        <div class="guide-text">
+          <strong id="guideTitle">원소의 주기성이란?</strong>
+          <span id="guideDesc">원자 번호 순서대로 원소를 배열했을 때, 화학적 성질이 비슷한 원소가 주기적으로 나타나는 성질입니다. 같은 <strong>족(세로줄)</strong> 원소는 <strong>원자가 전자 수</strong>가 같아서 화학적 성질이 비슷합니다!</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 주기율표 메인 그리드 영역 -->
+    <main class="table-wrapper">
+      <!-- 족 번호 헤더 (1~18) -->
+      <div class="group-header-row" id="groupHeaderRow">
+        <div class="period-corner-label">주기＼족</div>
+        <!-- 1~18족 번호가 JS로 삽입됩니다 -->
+      </div>
+
+      <!-- 주기율표 본체 그리드 -->
+      <div class="periodic-grid" id="periodicGrid" role="grid" aria-label="주기율표">
+        <!-- 자바스크립트로 동적 렌더링 -->
+      </div>
+
+      <!-- 란타넘/악티늄족 그리드 (전체 모드에서 표시) -->
+      <div class="f-block-wrapper" id="fBlockWrapper" style="display: none;">
+        <div class="f-block-row">
+          <div class="f-block-label">란타넘족 (La-Lu)</div>
+          <div class="f-block-grid" id="lanthanideGrid"></div>
+        </div>
+        <div class="f-block-row">
+          <div class="f-block-label">악티늄족 (Ac-Lr)</div>
+          <div class="f-block-grid" id="actinideGrid"></div>
+        </div>
+      </div>
+    </main>
+
+    <!-- 카테고리 범례 -->
+    <footer class="legend-container">
+      <span class="legend-title">원소 분류 범례 (클릭하여 해당 분류 강조)</span>
+      <div class="legend-items" id="legendItems">
+        <!-- JS로 동적 생성 -->
+      </div>
+    </footer>
+  </div>
+
+  <!-- 원소 상세 정보 모달 다이얼로그 -->
+  <div id="elementModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-card">
+      <!-- 모달 상단 헤더 -->
+      <header class="modal-header">
+        <div class="modal-header-meta">
+          <span id="modalAtomicNumber" class="modal-number">1</span>
+          <span id="modalCategoryTag" class="modal-category-tag">반응성 비금속</span>
+          <span id="modalGroupPeriodTag" class="modal-position-tag">1주기 · 1족</span>
+        </div>
+        <button id="modalCloseBtn" class="modal-close-btn" type="button" aria-label="닫기">✕</button>
+      </header>
+
+      <!-- 모달 본문 콘텐츠 -->
+      <div class="modal-body">
+        <!-- 좌측 컬럼: 원소 심볼 & 보어 전자 모형 시각화 -->
+        <div class="modal-visual-column">
+          <div class="modal-symbol-box" id="modalSymbolBox">
+            <span id="modalSymbol" class="modal-symbol">H</span>
+            <span id="modalNameKo" class="modal-name-ko">수소</span>
+            <span id="modalNameEn" class="modal-name-en">Hydrogen</span>
+            <span id="modalAtomicMass" class="modal-mass">원자량 1.008</span>
+          </div>
+
+          <!-- 보어 전자 껍질 모형 애니메이션 -->
+          <div class="bohr-model-container">
+            <div class="model-title-wrap">
+              <span class="model-title">보어 전자 껍질 모형 (전자 배치)</span>
+              <span id="modalValenceBadge" class="valence-badge">원자가 전자: 1개</span>
+            </div>
+            <div class="svg-orbit-wrapper" id="bohrOrbitContainer">
+              <!-- SVG 전자 궤도 및 회전 애니메이션이 JS로 렌더링됩니다 -->
+            </div>
+            <div class="shell-electron-stats" id="shellStats">
+              <!-- K: 2, L: 8 등 전자 껍질별 개수 표시 -->
+            </div>
+          </div>
+        </div>
+
+        <!-- 우측 컬럼: 개념 학습, 실생활 활용, 퀴즈 -->
+        <div class="modal-info-column">
+          <!-- 핵심 요약 및 성질 -->
+          <section class="info-section">
+            <h3 class="section-title">🔍 핵심 탐구 및 특징</h3>
+            <p id="modalSummary" class="modal-summary-text"></p>
+            <p id="modalDescription" class="modal-desc-text"></p>
+          </section>
+
+          <!-- 실생활 활용 & 화합물 예시 -->
+          <section class="info-section usage-section">
+            <h3 class="section-title">🌍 실생활 속 활용 & 대표 물질</h3>
+            <p id="modalUsage" class="modal-usage-text"></p>
+          </section>
+
+          <!-- 자가진단 미니 퀴즈 -->
+          <section class="info-section quiz-section" id="modalQuizSection">
+            <h3 class="section-title">💡 스스로 생각해보는 탐구 퀴즈</h3>
+            <div class="quiz-box">
+              <p id="modalQuizQuestion" class="quiz-question"></p>
+              <div class="quiz-action-bar">
+                <button type="button" id="btnToggleQuizAnswer" class="btn-toggle-quiz">정답 확인하기</button>
+                <span id="modalQuizHint" class="quiz-hint-text"></span>
+              </div>
+              <div id="modalQuizAnswerWrap" class="quiz-answer-wrap" style="display: none;">
+                <span class="answer-badge">정답 및 해설</span>
+                <p id="modalQuizAnswer" class="quiz-answer-text"></p>
+              </div>
+            </div>
+          </section>
+
+          <!-- 탐구 노트에 스크랩하기 액션 -->
+          <div class="modal-action-row">
+            <button id="btnAddToNotebook" class="btn-add-notebook" type="button">
+              📌 이 원소를 탐구 활동지에 추가하기
+            </button>
+            <span id="addedFeedbackMsg" class="feedback-msg"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 모달 하단 내비게이션 (이전 원소 / 다음 원소) -->
+      <footer class="modal-footer">
+        <button id="btnPrevElement" class="modal-nav-btn" type="button">◀ 이전 원소</button>
+        <span class="nav-hint">키보드 [←] [→] 방향키로 이동 가능</span>
+        <button id="btnNextElement" class="modal-nav-btn" type="button">다음 원소 ▶</button>
+      </footer>
+    </div>
+  </div>
+
+  <!-- 우측 슬라이드형 나만의 탐구 활동지 패널 -->
+  <aside id="notebookPanel" class="notebook-panel" aria-label="나만의 탐구 활동지 패널" aria-hidden="true">
+    <div class="notebook-header">
+      <div class="notebook-title-wrap">
+        <h2>📝 나만의 탐구 활동지</h2>
+        <p>탐구한 원소들을 모아 주기성을 분석하고 소감을 기록하세요.</p>
+      </div>
+      <button id="btnCloseNotebook" class="btn-close-notebook" type="button" aria-label="활동지 닫기">✕</button>
+    </div>
+
+    <div class="notebook-body">
+      <!-- 학생 기본 정보 입력 -->
+      <div class="student-info-row">
+        <input type="text" id="studentGradeClass" placeholder="학년 / 반 / 번호 (예: 1학년 2반 15번)">
+        <input type="text" id="studentName" placeholder="탐구자 이름 (예: 홍길동)">
+      </div>
+
+      <!-- 스크랩한 원소 목록 -->
+      <section class="scrapped-elements-section">
+        <div class="section-subhead">
+          <h3>수집한 원소 카드 (<span id="scrappedCount">0</span>개)</h3>
+          <button id="btnClearScraps" class="btn-subaction" type="button">전체 삭제</button>
+        </div>
+        <div id="scrappedList" class="scrapped-list">
+          <!-- 비어있을 때 안내 문구 -->
+          <p class="empty-note">원소 모달 창에서 [📌 탐구 활동지에 추가하기]를 누르면 여기에 기록됩니다.</p>
+        </div>
+      </section>
+
+      <!-- 탐구 관찰 및 주기성 발견 메모 -->
+      <section class="notebook-memo-section">
+        <h3>🔍 주기성 탐구 소감 및 규칙 발견 메모</h3>
+        <p class="memo-guide-text">예: 같은 족 원소들의 공통점, 같은 주기 원소들의 전자 껍질 변화, 18족 비활성 기체의 안정성 등을 자유롭게 기록해보세요.</p>
+        <textarea id="notebookMemo" class="notebook-textarea" rows="6" placeholder="여기에 나만의 탐구 관찰 내용과 알게 된 사실을 정리해보세요..."></textarea>
+      </section>
+    </div>
+
+    <!-- 활동지 하단 버튼 바 -->
+    <div class="notebook-footer">
+      <button id="btnCopyNotebook" class="btn-notebook-action" type="button">📋 활동지 텍스트 복사</button>
+      <button id="btnPrintNotebook" class="btn-notebook-action btn-primary" type="button">🖨️ 인쇄 / PDF 저장</button>
+    </div>
+  </aside>
+
+  <!-- 데이터 스크립트 및 메인 앱 로직 스크립트 연결 -->
+  <script src="elementsData.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
